@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Text Encryption</title>
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0d0d0d;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        h1 img {
+            width: 200px;
+            margin-bottom: 40px;
+            animation: glow 1.5s infinite alternate;
+        }
+        .translate-container {
+            background: linear-gradient(145deg, #1f1f1f, #3c3c3c);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #00ffcc;
+        }
+        .text-areas {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        textarea {
+            width: 48%;
+            height: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #00ffcc;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 18px;
+            resize: none;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+        #outputText {
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+            background-image: url('Olhando_lupa.png');
+            background-size: 150px; /* Aumenta o tamanho da imagem */
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        #outputText:empty:before {
+            content: "Nenhuma mensagem encontrada. Digite um texto que você deseja criptografar ou descriptografar";
+            display: block;
+            color: #ffffff;
+            font-size: 14px;
+            text-align: center;
+            padding: 0 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            z-index: 0;
+            opacity: 0.7;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .buttons button {
+            padding: 15px 25px;
+            font-size: 16px;
+            color: #0d0d0d;
+            background-color: #00ffcc;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.7);
+        }
+        .buttons button:hover {
+            background-color: #00e6b8;
+            transform: scale(1.05);
+        }
+        .copy-button {
+            width: 48%;
+            padding: 15px 25px;
+            font-size: 16px;
+            color: #0d0d0d;
+            background-color: #ff007f;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.7);
+            margin-top: 10px;
+        }
+        .copy-button:hover {
+            background-color: #e60073;
+            transform: scale(1.05);
+        }
+        @keyframes glow {
+            from {
+                filter: drop-shadow(0 0 10px #00ffcc);
+            }
+            to {
+                filter: drop-shadow(0 0 20px #00ffcc);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1><img src="Frame 6.png" alt="Logo Alura"></h1>
+    <div class="translate-container">
+        <div class="text-areas">
+            <textarea id="inputText" placeholder="Digite seu texto"></textarea>
+            <textarea id="outputText" placeholder="Nenhuma mensagem encontrada. Digite um texto que você deseja criptografar ou descriptografar" readonly></textarea>
+        </div>
+        <div class="buttons">
+            <button onclick="encryptText()">Criptografar</button>
+            <button onclick="decryptText()">Descriptografar</button>
+        </div>
+        <button class="copy-button" onclick="copyToClipboard()">Copiar</button>
+    </div>
+    <script>
+        function encryptText() {
+            let inputText = document.getElementById('inputText').value;
+            let outputText = document.getElementById('outputText');
+            let encryptedText = inputText
+                .replace(/e/g, 'enter')
+                .replace(/i/g, 'imes')
+                .replace(/a/g, 'ai')
+                .replace(/o/g, 'ober')
+                .replace(/u/g, 'ufat');
+            outputText.value = encryptedText;
+            toggleImage(encryptedText);
+        }
+
+        function decryptText() {
+            let inputText = document.getElementById('inputText').value;
+            let outputText = document.getElementById('outputText');
+            let decryptedText = inputText
+                .replace(/enter/g, 'e')
+                .replace(/imes/g, 'i')
+                .replace(/ai/g, 'a')
+                .replace(/ober/g, 'o')
+                .replace(/ufat/g, 'u');
+            outputText.value = decryptedText;
+            toggleImage(decryptedText);
+        }
+
+        function copyToClipboard() {
+            let outputText = document.getElementById('outputText');
+            outputText.select();
+            document.execCommand('copy');
+            alert('Texto copiado para a área de transferência!');
+        }
+
+        function toggleImage(text) {
+            let outputText = document.getElementById('outputText');
+            if (text.trim() === "") {
+                outputText.style.backgroundImage = "url('Olhando_lupa.png')";
+            } else {
+                outputText.style.backgroundImage = "none";
+            }
+        }
+    </script>
+</body>
+</html>
